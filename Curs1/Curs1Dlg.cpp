@@ -187,67 +187,12 @@ void CCurs1Dlg::OnPaint()
 
 	if (!IsIconic())
 	{	
-
-		/*char* info = "ewornceksrleasr";
-		GetDlgItem(DescText)->SetWindowText(info);*/
 		CProgressCtrl* pControl = (CProgressCtrl*)GetDlgItem(IDC_PROGRESS1);
 		// pControl->GetDlgItem(IDC_PROGRESS1);
 
 		pControl->SetRange(0, 100); // Задаємо границі
 		
 		Curs1.DrawRefresh(dc, rect/*, pControl*/);
-
-		//CRect fr;//get frame drawwing parametres
-		//CWnd* pWnd = GetDlgItem(IDC_FRAME);
-		//pWnd->GetWindowRect(&fr);
-		//ScreenToClient(&fr);
-		//int l = fr.left, t = fr.top, w = fr.Width(), h = fr.Height();
-
-
-		//Point p[] = { {400,200},{360,240},{440,240}, {400,280} };
-		//Point p1[] = { {40,200},{200,40},{40,40},{200,200} };
-		//Point p2[]={ {50, 400}, { 50,50 }, {400,400}, { 400,50 } };
-		////Point p1(400, 200), p2(360, 240), p3(440, 240), p4(400, 280);
-		////Quadrangle one(p1,p2,p3,p4);
-		//Quadrangle one(p);
-		//Quadrangle two(p1);
-		//Quadrangle three(p2);
-		////if(two.isRectangle()) //work		genial hod
-		////if(two.isSquare()) //work
-		//if (two.isSquare() && three.isRhomb()) { //work
-		//	two.SetQuadrColor(23, 120, 10);
-		//	two.Draw(dc);
-
-		//	three.Draw(dc);
-		//	if (!Curs1.QuadrIsCross(two, three)) {
-		//		two.SetQuadrColor(250, 0, 0);
-		//		three.SetQuadrColor(250, 0, 0);
-		//	}
-		//		two.Draw(dc);
-		//		three.Draw(dc);
-		///*	if (three.GetRhombArea() < two.GetRhombArea())
-		//		three.DrawCircleWithin(dc);
-		//	else two.DrawCircleWithin(dc);*/
-		//}
-		//one.SetQuadrColor(20, 110, 250);
-		//one.Draw(dc);
-	/*	if(one.isRhomb())
-			one.Draw(dc);
-		*/
-
-
-		//Line myL(p[0], p[1]), myL1(p[2], p[3]);
-		//if (myL.GetLength() > myL1.GetLength()) {
-		//	myL.SetColor(200, 100, 0);
-		//	myL1.SetColor(0, 100, 150);
-		//}
-		//else {
-		//	myL.SetColor(255, 0, 0);
-		//	myL1.SetColor(0, 0, 255);
-		//}
-
-		//myL.DrawLine(dc);
-		//myL1.DrawLine(dc);
 		GetDlgItem(DescText)->SetWindowText(L"Figures count:");
 		CDialogEx::OnPaint();
 	}
@@ -277,7 +222,6 @@ void CCurs1Dlg::OnBnClickedButton1()
 	SetTimer(1, 100, 0);
 	SetDlgItemText(TEXT_PROGRESS, (LPCTSTR)L"Entered cords...");
 	int openPointsFile = _spawnlp(_P_WAIT, "C:\\WINDOWS\\system32\\notepad.exe", "notepad.exe", "Points.txt", NULL);
-	Invalidate();
 	//Curs1.~Cursova();
 	if (Curs1.InitFromFile()) {
 		GetDlgItem(DescText)->ShowWindow(true);

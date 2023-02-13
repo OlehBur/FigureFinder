@@ -95,13 +95,11 @@ public:
 };
 
 class Quadrangle {
-	//Line line, line1, line2, line3;
 	short int R = 0, G = 0, B = 0;
-	//double angles[4];
 
 	void FixPoint();
 	double GetInCircleRadius();
-	//void GetAngles();
+	double GetAngle(int number);
 public:
 	//Line* lines[4];
 	Point vertexes[4];
@@ -111,11 +109,9 @@ public:
 	Quadrangle() {};
 
 	Point GetRhombCenter();
-	//int SortPoints(Point allPoints[]);
 
 	double GetDistanceOfPoint(Point point, Point point1);
 	int GetRhombArea();
-	//Point& GetVertexes();
 
 	bool isRectangle();
 	bool isRhomb();

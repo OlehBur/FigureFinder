@@ -128,14 +128,6 @@ inline void Point::SetCoords(short int x, short int y) {
 	this->y = y;
 };
 
-//inline bool Point::GetUsed() {
-//	return isUse;
-//};
-
-//inline void Point::SetUsed(bool isUse) {
-//	isUse = isUse;
-//};
-
 void Point::DrawPoint(CPaintDC& dc) {
 	CPen Point(BS_SOLID, 7, RGB(0, 0, 0));
 	dc.SelectObject(&Point);
@@ -156,10 +148,6 @@ int Point::PosOfPoint(Point beginLine, Point endLine) {
 		return 1;
 	return -1;
 };
-
-//int Point::GetDistance(Point p, Point p1) {
-//	return	(p.x - p1.x) * (p.x - p1.x) + (p.y - p1.y) * (p.y - p1.y);
-//};
 
 
 //class line
@@ -303,9 +291,6 @@ Quadrangle::Quadrangle(Point currentPoints[]) {
 	for (int pointIndex = 0; pointIndex < 4; pointIndex++)
 		vertexes[pointIndex] = currentPoints[pointIndex];
 	FixPoint();
-	/*for (int i = 0; i < 4; i++)
-		lines[i] = new Line(vertexes[i], vertexes[(i + 1) % 4], 0, 0, 0);*/
-	//GetAngles();
 };
 
 Quadrangle::Quadrangle(Point p, Point p1, Point p2, Point p3) {
@@ -315,9 +300,6 @@ Quadrangle::Quadrangle(Point p, Point p1, Point p2, Point p3) {
 	vertexes[3] = p3;
 	FixPoint();
 	
-	/*for (int i = 0; i < 4; i++)
-		lines[i] = new Line(vertexes[i], vertexes[(i + 1) % 4], 0, 0, 0);*/
-	//GetAngles();
 };
 
 void Quadrangle::FixPoint() {
@@ -341,20 +323,36 @@ double Quadrangle::GetDistanceOfPoint(Point point, Point point1) {
 	return	sqrt((double)mulXsubtr+ mulYsubtr); //C26451
 };
 
-//void Quadrangle::GetAngles() {
-//	double aLine = lines[0]->GetLength(),
-//		bLine = lines[1]->GetLength(),
-//		cLine = GetDistanceOfPoint(lines[0]->getBeginLine(), lines[1]->getEndLine()),//diagonal
-//
-//		aLine1 = lines[2]->GetLength(),
-//		bLine1 = lines[3]->GetLength(),
-//		cLine1 = GetDistanceOfPoint(lines[2]->getBeginLine(), lines[3]->getEndLine());//diagonal 2
-//
-//	this->angles[0] = cos((aLine * aLine + bLine * bLine - cLine * cLine) / 2 * aLine * bLine); //C angle			    1diag
-//	this->angles[1] = cos((aLine1 * aLine1 + bLine1 * bLine1 - cLine * cLine) / 2 * aLine1 * bLine1); //D angle
-//	this->angles[2] = cos((aLine * aLine + bLine1 * bLine1 - cLine1 * cLine1) / 2 * aLine * bLine1); //B angle			2diag
-//	this->angles[3] = cos((aLine1 * aLine1 + bLine * bLine - cLine1 * cLine1) / 2 * aLine1 * bLine); //A angle
-//};
+double Quadrangle::GetAngle(int number) {
+	Line l1(vertexes[0], vertexes[1]),
+		l2(vertexes[1], vertexes[2]),
+		l3(vertexes[2], vertexes[3]),
+		l4(vertexes[3], vertexes[0]);
+	double aLine = l1.GetLength(),//lines[0]->GetLength(),
+		bLine = l2.GetLength(),//lines[1]->GetLength(),
+		cLine = GetDistanceOfPoint(l1.getBeginLine(), l3.getEndLine()),//diagonal
+
+		aLine1 = l3.GetLength(),//lines[2]->GetLength(),
+		bLine1 = l4.GetLength(),//lines[3]->GetLength(),
+		cLine1 = GetDistanceOfPoint(l2.getBeginLine(), l4.getEndLine());//diagonal 2
+
+	switch (number) {
+	case 0:
+		return cos((aLine * aLine + bLine * bLine - cLine * cLine) / 2 * aLine * bLine); //C angle			    1diag
+		break;
+	case 1:
+		return cos((aLine1 * aLine1 + bLine1 * bLine1 - cLine * cLine) / 2 * aLine1 * bLine1); //D angle
+		break;
+	case 2: 
+		return cos((aLine * aLine + bLine1 * bLine1 - cLine1 * cLine1) / 2 * aLine * bLine1); //B angle			2diag
+		break;
+	case 3:
+		return cos((aLine1 * aLine1 + bLine * bLine - cLine1 * cLine1) / 2 * aLine1 * bLine); //A angle
+		break;
+	default:
+		return -1;
+	}
+};
 
 bool Quadrangle::isRectangle(){
 	//Line diagonal1(vertexes[2], vertexes[0]), diagonal2(vertexes[3], vertexes[1]);
@@ -456,23 +454,6 @@ bool Cursova::QuadrIsCross(Quadrangle quadrangle, Quadrangle quadrangle1) {
 		if(l1[i].IntersectionOfLines(l2[j]))
 		return true;
 	return false;
-	
-		/*	{
-			l = { quadrangle.lines[j]->getBeginLine(), quadrangle.lines[j]->getEndLine() },
-				l1 = { quadrangle.lines[i]->getBeginLine(), quadrangle.lines[i]->getEndLine() };
-
-			double koefL = (l.getBeginLine().GetPointY() - l.getEndLine().GetPointY()) / (double)(l.getBeginLine().GetPointX() - l.getEndLine().GetPointX()),
-				koefL1 = (l1.getBeginLine().GetPointY() - l1.getEndLine().GetPointY()) / (double)(l1.getBeginLine().GetPointX() - l1.getEndLine().GetPointX());*/
-
-	//if (quadrangle.lines[j]->PosOfPoint(quadrangle1.lines[i]->getBeginLine()) * quadrangle.lines[j]->PosOfPoint(quadrangle1.lines[i]->getEndLine()) < 0
-	//	&& quadrangle.lines[i]->PosOfPoint(quadrangle1.lines[j]->getBeginLine()) * quadrangle.lines[i]->PosOfPoint(quadrangle1.lines[j]->getEndLine()) < 0
-	//	/*&& koefL!=koefL1*/)
-//}
-
-		/*for (int i = 0; i < 4; i++)
-		for (int j = i+1; j < 4; j++)
-			if (quadrangle1.vertexes[i].PosOfPoint(quadrangle1.vertexes[i], quadrangle1.vertexes[j])<=0
-				&& quadrangle1.vertexes[j].PosOfPoint(quadrangle1.vertexes[i], quadrangle1.vertexes[j]) < 0)*/
 };
 
 int Cursova::InitFromFile(){
@@ -480,31 +461,6 @@ int Cursova::InitFromFile(){
 	Point currPoint;
 	int pointX = 0, pointY = 0;
 	countPoints = 0;
-	//const int sizeBuff = 100;
-	//char buff[sizeBuff];
-	//int currentSymbol;
-	//FILE* fileOfPoints;
-
-	//fopen_s(&fileOfPoints, "Points.txt", "r");
-
-	////count points
-	//while ((currentSymbol = getc(fileOfPoints)) != EOF)
-	//	if (currentSymbol == '=')countPoints++;
-	//rewind(fileOfPoints);//to beg
-	//countPoints = (countPoints >> 1);
-
-	//allPoints = new Point[countPoints];
-
-	//for (int stringCount = 0; stringCount < countPoints; stringCount++) {//TochkaN: x=n, y=n;
-	//	fscanf_s(fileOfPoints, "%s%s%2s%d%s%2s%d%s\n", buff, sizeBuff, buff, sizeBuff, buff, sizeBuff, &pointX, buff, sizeBuff, buff, sizeBuff, &pointY, buff, sizeBuff);
-	//	allPoints[stringCount].SetCoords(pointX + Point::xBord, pointY + Point::yBord);
-
-	//	if (pointX > 1025 || pointY > 603)
-	//		 // std::string strNum = std::to_string(countPoints);
-	//		  //strNum = "Ви вказали не вірну кординату точки в рядку:" + strNum + ", вона не співпадає із заданною областю полотна, виправте це, або видаліть точку. Будь ласка, уважно читайте інформацію до програми!";
-	//		MessageBox(NULL, (LPCWSTR)L"Ви вказали не вірну кординату точки в певному рядку, вона не співпадає із заданною областю полотна, виправте це, або видаліть точку. Будь ласка, уважно читайте інформацію до програми!" /*strNum.str().c_str()*/, (LPCWSTR)L"Порушення!", MB_OK | MB_ICONERROR);
-	//};
-	//fclose(fileOfPoints);
 	char sym;
 
 	ifstream fileOfPoints("Points.txt"); //для читання
@@ -607,11 +563,11 @@ int Cursova::InitFromFile(){
 		 /*dc.Rectangle(0, 0, width, 40);
 		 dc.Rectangle(0, 40, 20, height);*/
 		 //frame clear area
-		 dc.Rectangle(11, 29, 900, 527);
-		 //dc.Rectangle(0, 0, 2000, 34);
-		 //dc.Rectangle(0, 34, 13, 1100);
-		 //dc.Rectangle(1050, 34, 2000, 1100);
-		 //dc.Rectangle(13, 650, 2000, 1100);
+		 //dc.Rectangle(11, 29, 900, 527);
+		 dc.Rectangle(0, 0, 1000, 29);
+		 dc.Rectangle(0, 29, 11, 600);
+		 dc.Rectangle(900, 29, 1000, 600);
+		 dc.Rectangle(11, 529, 900, 600);
 	 };
 
 
